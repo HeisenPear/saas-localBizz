@@ -64,20 +64,24 @@ export async function signUp(
     trialEndsAt.setDate(trialEndsAt.getDate() + 14);
 
     // Create user profile
-    const { error: profileError } = await supabase.from("profiles").insert({
+    const profileData = {
       id: authData.user.id,
       email: input.email,
       business_name: input.businessName,
       business_type: input.businessType,
       phone: input.phone,
       siret: input.siret || null,
-      address: {},
-      subscription_tier: null,
-      subscription_status: "trial",
+      address: {} as any,
+      subscription_tier: null as any,
+      subscription_status: "trial" as any,
       trial_ends_at: trialEndsAt.toISOString(),
       website_subdomain: subdomain,
       website_published: false,
-    });
+    };
+
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .insert(profileData as any);
 
     if (profileError) {
       // If profile creation fails, we should delete the auth user
@@ -92,22 +96,24 @@ export async function signUp(
     }
 
     // Create default website content
+    const websiteData = {
+      user_id: authData.user.id,
+      hero_title: `Bienvenue chez ${input.businessName}`,
+      hero_subtitle: "Votre artisan de confiance",
+      about_text: "",
+      services: [] as any,
+      gallery_images: [] as any,
+      contact_email: input.email,
+      contact_phone: input.phone,
+      business_hours: {} as any,
+      social_links: {} as any,
+      seo_title: input.businessName,
+      seo_description: `${input.businessName} - Artisan professionnel`,
+    };
+
     const { error: websiteError } = await supabase
       .from("website_content")
-      .insert({
-        user_id: authData.user.id,
-        hero_title: `Bienvenue chez ${input.businessName}`,
-        hero_subtitle: "Votre artisan de confiance",
-        about_text: "",
-        services: [],
-        gallery_images: [],
-        contact_email: input.email,
-        contact_phone: input.phone,
-        business_hours: {},
-        social_links: {},
-        seo_title: input.businessName,
-        seo_description: `${input.businessName} - Artisan professionnel`,
-      });
+      .insert(websiteData as any);
 
     if (websiteError) {
       console.error("Failed to create website content:", websiteError);
