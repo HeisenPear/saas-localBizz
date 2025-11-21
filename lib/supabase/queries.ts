@@ -145,7 +145,7 @@ export async function getUserWebsiteContent(userId: string) {
 export async function generateInvoiceNumber(userId: string) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.rpc("generate_invoice_number", {
+  const { data, error } = await (supabase as any).rpc("generate_invoice_number", {
     p_user_id: userId,
   });
 
@@ -160,7 +160,7 @@ export async function generateInvoiceNumber(userId: string) {
 export async function generateQuoteNumber(userId: string) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.rpc("generate_quote_number", {
+  const { data, error } = await (supabase as any).rpc("generate_quote_number", {
     p_user_id: userId,
   });
 
@@ -179,7 +179,7 @@ export async function logUserAction(
 ) {
   const supabase = await createClient();
 
-  const { error } = await supabase.from("usage_logs").insert({
+  const { error } = await (supabase.from("usage_logs") as any).insert({
     user_id: userId,
     action_type: actionType,
     metadata: metadata || {},

@@ -31,7 +31,7 @@ interface PricingCardProps {
     currency: string;
     interval: string;
     popular?: boolean;
-    features: string[];
+    features: readonly string[];
   };
 }
 

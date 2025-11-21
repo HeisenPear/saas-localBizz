@@ -29,8 +29,8 @@ export async function updateProfileSettings(input: {
     }
 
     // Update profile
-    const { error } = await supabase
-      .from("profiles")
+    const { error } = await (supabase
+      .from("profiles") as any)
       .update({
         phone: input.phone,
         updated_at: new Date().toISOString(),
@@ -75,13 +75,13 @@ export async function updateBusinessSettings(input: {
       return { success: false, error: "Non authentifié" };
     }
 
-    const { error } = await supabase
-      .from("profiles")
+    const { error } = await (supabase
+      .from("profiles") as any)
       .update({
         business_name: input.businessName,
         business_type: input.businessType,
         siret: input.siret,
-        address: input.address as any,
+        address: input.address,
         updated_at: new Date().toISOString(),
       })
       .eq("id", user.id);
@@ -125,8 +125,8 @@ export async function updateBillingSettings(input: {
 
     // Store billing settings in profile metadata
     // In production, consider creating a separate billing_settings table
-    const { error } = await supabase
-      .from("profiles")
+    const { error } = await (supabase
+      .from("profiles") as any)
       .update({
         updated_at: new Date().toISOString(),
       })

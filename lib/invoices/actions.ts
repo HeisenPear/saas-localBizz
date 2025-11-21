@@ -62,8 +62,8 @@ export async function createInvoice(
       .single();
 
     let invoiceNumber = `FAC-${year}-001`;
-    if (lastInvoice?.invoice_number) {
-      const match = lastInvoice.invoice_number.match(/FAC-(\d{4})-(\d{3})/);
+    if ((lastInvoice as any)?.invoice_number) {
+      const match = (lastInvoice as any).invoice_number.match(/FAC-(\d{4})-(\d{3})/);
       if (match) {
         const lastYear = parseInt(match[1]);
         const lastNumber = parseInt(match[2]);
@@ -95,8 +95,8 @@ export async function createInvoice(
     return {
       success: true,
       data: {
-        id: invoice.id,
-        invoice_number: invoice.invoice_number,
+        id: (invoice as any).id,
+        invoice_number: (invoice as any).invoice_number,
       },
     };
   } catch (error) {
@@ -124,12 +124,12 @@ export async function updateInvoice(
     }
 
     // Update invoice
-    const { data: invoice, error } = await supabase
-      .from("invoices")
+    const { data: invoice, error } = await (supabase
+      .from("invoices") as any)
       .update({
         ...data,
         updated_at: new Date().toISOString(),
-      } as any)
+      })
       .eq("id", invoiceId)
       .eq("user_id", user.id)
       .select()
@@ -145,8 +145,8 @@ export async function updateInvoice(
     return {
       success: true,
       data: {
-        id: invoice.id,
-        invoice_number: invoice.invoice_number,
+        id: (invoice as any).id,
+        invoice_number: (invoice as any).invoice_number,
       },
     };
   } catch (error) {
@@ -209,8 +209,8 @@ export async function markInvoiceAsPaid(
       return { success: false, error: "Non autorisé" };
     }
 
-    const { error } = await supabase
-      .from("invoices")
+    const { error } = await (supabase
+      .from("invoices") as any)
       .update({
         status: "paid",
         paid_at: new Date().toISOString(),
@@ -250,8 +250,8 @@ export async function cancelInvoice(
       return { success: false, error: "Non autorisé" };
     }
 
-    const { error } = await supabase
-      .from("invoices")
+    const { error } = await (supabase
+      .from("invoices") as any)
       .update({
         status: "cancelled",
         updated_at: new Date().toISOString(),

@@ -5,7 +5,7 @@
  */
 
 import { Card, CardContent } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/dashboard/stats";
+import { formatCurrency } from "@/lib/utils/format";
 import type { Database } from "@/types/database";
 import type { LineItem } from "./invoice-form";
 

@@ -61,7 +61,7 @@ export const signupSchema = z
         "autre",
       ],
       {
-        required_error: "Veuillez sélectionner un type d'activité",
+        message: "Veuillez sélectionner un type d'activité",
       }
     ),
     phone: z

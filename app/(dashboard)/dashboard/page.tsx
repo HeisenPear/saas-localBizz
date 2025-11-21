@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { StatsCard } from "@/components/dashboard/stats-card";
 import { QuickActionButton } from "@/components/dashboard/quick-action-button";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
-import { getDashboardStats, getRecentActivity, formatCurrency } from "@/lib/dashboard/stats";
+import { getDashboardStats, getRecentActivity } from "@/lib/dashboard/stats";
+import { formatCurrency } from "@/lib/utils/format";
 import {
   FileText,
   FileSpreadsheet,

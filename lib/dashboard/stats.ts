@@ -59,27 +59,27 @@ export async function getDashboardStats(
   const invoicesThisMonth =
     allInvoices?.filter(
       (inv) =>
-        new Date(inv.invoice_date) >= firstDayOfMonth &&
-        new Date(inv.invoice_date) <= lastDayOfMonth
+        new Date((inv as any).invoice_date) >= firstDayOfMonth &&
+        new Date((inv as any).invoice_date) <= lastDayOfMonth
     ) || [];
 
   const invoicesLastMonth =
     allInvoices?.filter(
       (inv) =>
-        new Date(inv.invoice_date) >= firstDayOfLastMonth &&
-        new Date(inv.invoice_date) <= lastDayOfLastMonth
+        new Date((inv as any).invoice_date) >= firstDayOfLastMonth &&
+        new Date((inv as any).invoice_date) <= lastDayOfLastMonth
     ) || [];
 
   const unpaidInvoices =
-    allInvoices?.filter((inv) => inv.status === "pending") || [];
+    allInvoices?.filter((inv) => (inv as any).status === "pending") || [];
 
   const totalRevenue =
-    allInvoices?.reduce((sum, inv) => sum + (inv.total_amount || 0), 0) || 0;
+    allInvoices?.reduce((sum, inv) => sum + ((inv as any).total_amount || 0), 0) || 0;
   const revenueThisMonth =
-    invoicesThisMonth.reduce((sum, inv) => sum + (inv.total_amount || 0), 0) ||
+    invoicesThisMonth.reduce((sum, inv) => sum + ((inv as any).total_amount || 0), 0) ||
     0;
   const revenueLastMonth =
-    invoicesLastMonth.reduce((sum, inv) => sum + (inv.total_amount || 0), 0) ||
+    invoicesLastMonth.reduce((sum, inv) => sum + ((inv as any).total_amount || 0), 0) ||
     0;
 
   const invoiceTrend =
@@ -96,19 +96,19 @@ export async function getDashboardStats(
   const quotesThisMonth =
     allQuotes?.filter(
       (q) =>
-        new Date(q.quote_date) >= firstDayOfMonth &&
-        new Date(q.quote_date) <= lastDayOfMonth
+        new Date((q as any).quote_date) >= firstDayOfMonth &&
+        new Date((q as any).quote_date) <= lastDayOfMonth
     ) || [];
 
   const quotesLastMonth =
     allQuotes?.filter(
       (q) =>
-        new Date(q.quote_date) >= firstDayOfLastMonth &&
-        new Date(q.quote_date) <= lastDayOfLastMonth
+        new Date((q as any).quote_date) >= firstDayOfLastMonth &&
+        new Date((q as any).quote_date) <= lastDayOfLastMonth
     ) || [];
 
   const pendingQuotes =
-    allQuotes?.filter((q) => q.status === "pending") || [];
+    allQuotes?.filter((q) => (q as any).status === "pending") || [];
 
   const quoteTrend =
     quotesLastMonth.length > 0
@@ -136,23 +136,23 @@ export async function getDashboardStats(
   const upcomingAppointments =
     allAppointments?.filter(
       (apt) =>
-        new Date(apt.start_time) >= now && apt.status !== "cancelled"
+        new Date((apt as any).start_time) >= now && (apt as any).status !== "cancelled"
     ) || [];
 
   const todayAppointments =
     allAppointments?.filter(
       (apt) =>
-        new Date(apt.start_time) >= today &&
-        new Date(apt.start_time) < tomorrow &&
-        apt.status !== "cancelled"
+        new Date((apt as any).start_time) >= today &&
+        new Date((apt as any).start_time) < tomorrow &&
+        (apt as any).status !== "cancelled"
     ) || [];
 
   const thisWeekAppointments =
     allAppointments?.filter(
       (apt) =>
-        new Date(apt.start_time) >= startOfWeek &&
-        new Date(apt.start_time) < endOfWeek &&
-        apt.status !== "cancelled"
+        new Date((apt as any).start_time) >= startOfWeek &&
+        new Date((apt as any).start_time) < endOfWeek &&
+        (apt as any).status !== "cancelled"
     ) || [];
 
   // Fetch clients data
@@ -164,15 +164,15 @@ export async function getDashboardStats(
   const clientsThisMonth =
     allClients?.filter(
       (c) =>
-        new Date(c.created_at) >= firstDayOfMonth &&
-        new Date(c.created_at) <= lastDayOfMonth
+        new Date((c as any).created_at) >= firstDayOfMonth &&
+        new Date((c as any).created_at) <= lastDayOfMonth
     ) || [];
 
   const clientsLastMonth =
     allClients?.filter(
       (c) =>
-        new Date(c.created_at) >= firstDayOfLastMonth &&
-        new Date(c.created_at) <= lastDayOfLastMonth
+        new Date((c as any).created_at) >= firstDayOfLastMonth &&
+        new Date((c as any).created_at) <= lastDayOfLastMonth
     ) || [];
 
   const clientTrend =
@@ -253,15 +253,15 @@ export async function getRecentActivity(
   // Add invoice activities
   invoices.data?.forEach((inv) => {
     activities.push({
-      id: `invoice-${inv.id}`,
+      id: `invoice-${(inv as any).id}`,
       type: "invoice",
-      title: `Facture ${inv.invoice_number}`,
-      description: `${inv.client_name} - ${inv.total_amount}€`,
-      timestamp: new Date(inv.created_at),
+      title: `Facture ${(inv as any).invoice_number}`,
+      description: `${(inv as any).client_name} - ${(inv as any).total_amount}€`,
+      timestamp: new Date((inv as any).created_at),
       status:
-        inv.status === "paid"
+        (inv as any).status === "paid"
           ? "success"
-          : inv.status === "cancelled"
+          : (inv as any).status === "cancelled"
           ? "error"
           : "pending",
     });
@@ -270,15 +270,15 @@ export async function getRecentActivity(
   // Add quote activities
   quotes.data?.forEach((quote) => {
     activities.push({
-      id: `quote-${quote.id}`,
+      id: `quote-${(quote as any).id}`,
       type: "quote",
-      title: `Devis ${quote.quote_number}`,
-      description: `${quote.client_name} - ${quote.total_amount}€`,
-      timestamp: new Date(quote.created_at),
+      title: `Devis ${(quote as any).quote_number}`,
+      description: `${(quote as any).client_name} - ${(quote as any).total_amount}€`,
+      timestamp: new Date((quote as any).created_at),
       status:
-        quote.status === "accepted"
+        (quote as any).status === "accepted"
           ? "success"
-          : quote.status === "rejected"
+          : (quote as any).status === "rejected"
           ? "error"
           : "pending",
     });
@@ -287,17 +287,17 @@ export async function getRecentActivity(
   // Add appointment activities
   appointments.data?.forEach((apt) => {
     activities.push({
-      id: `appointment-${apt.id}`,
+      id: `appointment-${(apt as any).id}`,
       type: "appointment",
-      title: apt.title,
-      description: `${apt.client_name} - ${new Date(
-        apt.start_time
+      title: (apt as any).title,
+      description: `${(apt as any).client_name} - ${new Date(
+        (apt as any).start_time
       ).toLocaleString("fr-FR")}`,
-      timestamp: new Date(apt.created_at),
+      timestamp: new Date((apt as any).created_at),
       status:
-        apt.status === "confirmed"
+        (apt as any).status === "confirmed"
           ? "success"
-          : apt.status === "cancelled"
+          : (apt as any).status === "cancelled"
           ? "error"
           : "pending",
     });
@@ -306,11 +306,11 @@ export async function getRecentActivity(
   // Add client activities
   clients.data?.forEach((client) => {
     activities.push({
-      id: `client-${client.id}`,
+      id: `client-${(client as any).id}`,
       type: "client",
       title: `Nouveau client`,
-      description: `${client.name} ${client.surname || ""}`.trim(),
-      timestamp: new Date(client.created_at),
+      description: `${(client as any).name} ${(client as any).surname || ""}`.trim(),
+      timestamp: new Date((client as any).created_at),
       status: "success",
     });
   });

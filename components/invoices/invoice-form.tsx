@@ -55,26 +55,26 @@ export function InvoiceForm({
   // Form state
   const [selectedClient, setSelectedClient] = useState<Client | null>(
     invoice
-      ? clients.find((c) => c.id === invoice.client_id) || null
+      ? clients.find((c) => c.id === (invoice as any).client_id) || null
       : null
   );
 
   const [formData, setFormData] = useState({
-    invoiceDate: invoice?.invoice_date
-      ? new Date(invoice.invoice_date).toISOString().split("T")[0]
+    invoiceDate: (invoice as any)?.invoice_date
+      ? new Date((invoice as any).invoice_date).toISOString().split("T")[0]
       : new Date().toISOString().split("T")[0],
-    dueDate: invoice?.due_date
-      ? new Date(invoice.due_date).toISOString().split("T")[0]
+    dueDate: (invoice as any)?.due_date
+      ? new Date((invoice as any).due_date).toISOString().split("T")[0]
       : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
           .toISOString()
           .split("T")[0],
-    notes: invoice?.notes || "",
-    terms: invoice?.terms || "Paiement sous 30 jours",
+    notes: (invoice as any)?.notes || "",
+    terms: (invoice as any)?.terms || "Paiement sous 30 jours",
   });
 
   const [lineItems, setLineItems] = useState<LineItem[]>(
-    invoice?.line_items
-      ? (invoice.line_items as any[]).map((item: any, index: number) => ({
+    (invoice as any)?.line_items
+      ? ((invoice as any).line_items as any[]).map((item: any, index: number) => ({
           id: `${index}`,
           ...item,
         }))

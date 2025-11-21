@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { formatCurrency } from "@/lib/dashboard/stats";
+import { formatCurrency } from "@/lib/utils/format";
 import {
   Eye,
   Edit,
@@ -103,12 +103,12 @@ export function InvoicesTable({
                   </TableCell>
                   <TableCell>{invoice.client_name}</TableCell>
                   <TableCell>
-                    {new Date(invoice.invoice_date).toLocaleDateString("fr-FR")}
+                    {new Date((invoice as any).invoice_date).toLocaleDateString("fr-FR")}
                   </TableCell>
                   <TableCell>
-                    {new Date(invoice.due_date).toLocaleDateString("fr-FR")}
+                    {new Date((invoice as any).due_date).toLocaleDateString("fr-FR")}
                   </TableCell>
-                  <TableCell>{formatCurrency(invoice.total_amount)}</TableCell>
+                  <TableCell>{formatCurrency((invoice as any).total_amount)}</TableCell>
                   <TableCell>
                     <Badge
                       variant="secondary"

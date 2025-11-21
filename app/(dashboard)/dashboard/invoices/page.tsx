@@ -79,20 +79,23 @@ export default async function InvoicesPage({ searchParams }: PageProps) {
     .select("total_amount, status")
     .eq("user_id", user.id);
 
+  const invoicesData = (allInvoices.data || []) as Array<{
+    total_amount: number;
+    status: string;
+  }>;
+
   const stats = {
-    total: allInvoices.data?.length || 0,
-    paid: allInvoices.data?.filter((inv) => inv.status === "paid").length || 0,
-    pending:
-      allInvoices.data?.filter((inv) => inv.status === "pending").length || 0,
-    overdue:
-      allInvoices.data?.filter((inv) => inv.status === "overdue").length || 0,
-    totalAmount:
-      allInvoices.data?.reduce((sum, inv) => sum + (inv.total_amount || 0), 0) ||
-      0,
-    pendingAmount:
-      allInvoices.data
-        ?.filter((inv) => inv.status === "pending" || inv.status === "overdue")
-        .reduce((sum, inv) => sum + (inv.total_amount || 0), 0) || 0,
+    total: invoicesData.length,
+    paid: invoicesData.filter((inv) => inv.status === "paid").length,
+    pending: invoicesData.filter((inv) => inv.status === "pending").length,
+    overdue: invoicesData.filter((inv) => inv.status === "overdue").length,
+    totalAmount: invoicesData.reduce(
+      (sum, inv) => sum + (inv.total_amount || 0),
+      0
+    ),
+    pendingAmount: invoicesData
+      .filter((inv) => inv.status === "pending" || inv.status === "overdue")
+      .reduce((sum, inv) => sum + (inv.total_amount || 0), 0),
   };
 
   return (

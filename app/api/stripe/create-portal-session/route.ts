@@ -28,7 +28,9 @@ export async function POST(request: Request) {
       .eq("id", user.id)
       .single();
 
-    if (!profile?.stripe_customer_id) {
+    const profileData = profile as { stripe_customer_id: string | null } | null;
+
+    if (!profileData?.stripe_customer_id) {
       return NextResponse.json(
         { error: "No Stripe customer found" },
         { status: 400 }
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
 
     // Create portal session
     const session = await createPortalSession({
-      customerId: profile.stripe_customer_id,
+      customerId: profileData.stripe_customer_id,
       returnUrl: `${appUrl}/dashboard/billing`,
     });
 

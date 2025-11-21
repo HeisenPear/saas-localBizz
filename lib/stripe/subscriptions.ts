@@ -32,12 +32,16 @@ export async function createCheckoutSession(params: {
     throw new Error("User profile not found");
   }
 
+  if (!stripe) {
+    throw new Error("Stripe is not configured");
+  }
+
   // Create or retrieve Stripe customer
-  let customerId = profile.stripe_customer_id;
+  let customerId = (profile as any).stripe_customer_id;
 
   if (!customerId) {
     const customer = await stripe.customers.create({
-      email: profile.email,
+      email: (profile as any).email,
       metadata: {
         user_id: userId,
       },
@@ -45,8 +49,8 @@ export async function createCheckoutSession(params: {
     customerId = customer.id;
 
     // Save customer ID to database
-    await supabase
-      .from("profiles")
+    await (supabase
+      .from("profiles") as any)
       .update({ stripe_customer_id: customerId })
       .eq("id", userId);
   }
@@ -88,6 +92,10 @@ export async function createPortalSession(params: {
 }) {
   const { customerId, returnUrl } = params;
 
+  if (!stripe) {
+    throw new Error("Stripe is not configured");
+  }
+
   const session = await stripe.billingPortal.sessions.create({
     customer: customerId,
     return_url: returnUrl,
@@ -101,6 +109,9 @@ export async function createPortalSession(params: {
  */
 export async function getSubscription(subscriptionId: string) {
   try {
+    if (!stripe) {
+      throw new Error("Stripe is not configured");
+    }
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     return subscription;
   } catch (error) {
@@ -114,6 +125,9 @@ export async function getSubscription(subscriptionId: string) {
  */
 export async function cancelSubscription(subscriptionId: string) {
   try {
+    if (!stripe) {
+      throw new Error("Stripe is not configured");
+    }
     const subscription = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: true,
     });
@@ -129,6 +143,9 @@ export async function cancelSubscription(subscriptionId: string) {
  */
 export async function reactivateSubscription(subscriptionId: string) {
   try {
+    if (!stripe) {
+      throw new Error("Stripe is not configured");
+    }
     const subscription = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: false,
     });
