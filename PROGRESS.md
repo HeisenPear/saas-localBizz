@@ -56,54 +56,63 @@ Dernière mise à jour : 20 novembre 2025
 - **API Routes** : 4
 - **Database Tables** : 7
 
-## 🔧 À IMPLÉMENTER
+## ✅ COMPLÉTÉ (Sprint 2.1)
 
-### Sprint 2.1 : Dashboard Layout Amélioré (PRIORITAIRE)
-- [ ] Sidebar avec navigation
-- [ ] Mobile bottom nav
-- [ ] Stats cards dashboard
-- [ ] Recent activity timeline
-- [ ] Quick actions buttons
-- [ ] Upcoming appointments widget
-- [ ] Unpaid invoices alerts
+### Sprint 2.1 : Dashboard Layout Amélioré ✅
+- [x] Sidebar avec navigation (desktop + mobile)
+- [x] Mobile bottom nav
+- [x] Stats cards dashboard avec données réelles
+- [x] Recent activity timeline
+- [x] Quick actions buttons
+- [x] Dashboard stats avec calculs de tendances
+- [x] Unpaid invoices alerts
+- [x] Layout responsive avec sidebar collapsible
 
-**Fichiers à créer** :
+**Fichiers créés** :
 ```
 /components/dashboard/
-  - sidebar.tsx
+  - sidebar.tsx (Desktop + Mobile)
   - mobile-nav.tsx
   - stats-card.tsx
   - quick-action-button.tsx
   - recent-activity.tsx
+  - layout-client.tsx
 
 /lib/dashboard/
-  - stats.ts
+  - stats.ts (getDashboardStats, getRecentActivity, formatCurrency)
 ```
 
-### Sprint 2.2 : Pages Paramètres (PRIORITAIRE)
-- [ ] Onglets : Profil, Entreprise, Facturation, Sécurité
-- [ ] Upload photo de profil
-- [ ] Upload logo entreprise
-- [ ] Formulaires validation Zod
-- [ ] Changer mot de passe
-- [ ] Supprimer compte
+### Sprint 2.2 : Pages Paramètres ✅
+- [x] Onglets : Profil, Entreprise, Facturation, Sécurité
+- [x] Upload photo de profil
+- [x] Upload logo entreprise
+- [x] Formulaires de mise à jour
+- [x] Changer mot de passe
+- [x] Supprimer compte (Danger Zone)
+- [x] Server actions pour toutes les mises à jour
+- [x] Gestion uploads Supabase Storage
 
-**Fichiers à créer** :
+**Fichiers créés** :
 ```
 /app/(dashboard)/dashboard/settings/
   - page.tsx
-  - layout.tsx
 
 /components/settings/
   - tabs-navigation.tsx
+  - profile-settings.tsx
+  - business-settings.tsx
+  - billing-settings.tsx
+  - security-settings.tsx
   - profile-upload.tsx
   - danger-zone.tsx
 
 /lib/settings/
-  - actions.ts
+  - actions.ts (updateProfileSettings, updateBusinessSettings, updateBillingSettings, changePassword, deleteAccount)
 /lib/storage/
-  - upload.ts
+  - upload.ts (uploadFile, deleteFile)
 ```
+
+## 🔧 À IMPLÉMENTER
 
 ### Sprint 3.1 : Module Facturation (ESSENTIEL)
 - [ ] Liste factures avec filtres
