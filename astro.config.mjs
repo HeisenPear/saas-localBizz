@@ -8,7 +8,7 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://renaissance-web.fr',
+  site: 'https://saas-vitrine-antoine.vercel.app',
   output: 'static',
   adapter: vercel({
     webAnalytics: {
@@ -32,13 +32,13 @@ export default defineConfig({
       lastmod: new Date(),
       // Custom configuration for different page types
       customPages: [
-        'https://renaissance-web.fr/',
-        'https://renaissance-web.fr/services',
-        'https://renaissance-web.fr/tarifs',
-        'https://renaissance-web.fr/contact',
-        'https://renaissance-web.fr/a-propos',
-        'https://renaissance-web.fr/realisations',
-        'https://renaissance-web.fr/blog'
+        'https://saas-vitrine-antoine.vercel.app/',
+        'https://saas-vitrine-antoine.vercel.app/services',
+        'https://saas-vitrine-antoine.vercel.app/tarifs',
+        'https://saas-vitrine-antoine.vercel.app/contact',
+        'https://saas-vitrine-antoine.vercel.app/a-propos',
+        'https://saas-vitrine-antoine.vercel.app/realisations',
+        'https://saas-vitrine-antoine.vercel.app/blog'
       ],
       filter: (page) => {
         // Exclude pages you don't want in the sitemap
